@@ -218,6 +218,7 @@ namespace SY_HMI_InvoiceEDI
                         oTAB_DATA_HEADER.ZSHOP = dr["ZSHOP"].ToString();
                         oTAB_DATA_HEADER.EBELN = dr["EBELN"].ToString();
 
+
                         oTAB_DATA_HEADER.MATNR = dr["MATNR"].ToString().Replace("-", "");
 
                         oTAB_DATA_HEADER.IVQTY = dr["IVQTY"].ToString();
@@ -227,6 +228,8 @@ namespace SY_HMI_InvoiceEDI
                         oTAB_DATA_HEADER.ZCGST = Math.Round(Convert.ToDecimal(dr["ZCGST"]), 2).ToString();
                         oTAB_DATA_HEADER.ZSGST = Math.Round(Convert.ToDecimal(dr["ZSGST"]), 2).ToString();
                         oTAB_DATA_HEADER.ZIGST = Math.Round(Convert.ToDecimal(dr["ZIGST"]), 2).ToString();
+                        oTAB_DATA_HEADER.ZUGST = "0.00";
+                        oTAB_DATA_HEADER.IRN = dr["IRN"].ToString();
                         oTAB_DATA_HEADER.ZHSNSAC = dr["ZHSNSAC"].ToString();
                         oTAB_DATA_HEADER.ZGSTIN = dr["ZGSTIN"].ToString();
                         oTAB_DATA_HEADER.VEHNO = dr["VEHNO"].ToString().ToUpper().Trim();
@@ -252,6 +255,9 @@ namespace SY_HMI_InvoiceEDI
                 }
                 if (lstHeader.Count > 0)
                 {
+                    
+
+
                     KIN_InvoiceEDI.KIN_Service.INUPUT_DATA reqData = new INUPUT_DATA();
                     reqData.GET_DATA = lstHeader.ToArray();
                     string strPDF = GetPDFFile(corcd, bizcd, prvInvoice);
