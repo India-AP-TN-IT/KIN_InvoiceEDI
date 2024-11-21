@@ -12,6 +12,7 @@ using System.ServiceModel;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace SY_HMI_InvoiceEDI
@@ -25,8 +26,8 @@ namespace SY_HMI_InvoiceEDI
         bool m_bStop = false;
         DateTime m_oldTimeMail = new DateTime();
         DateTime m_oldTimeSMS = new DateTime();
-    
-        private System.Threading.Timer IntervalTimer;
+
+        private System.Timers.Timer m_timer = new System.Timers.Timer();
         private const string CN_CONFIG_XML_PATH = @"HE_MES_Config.xml";
 
         public KIN_IV_Service()
@@ -146,12 +147,18 @@ namespace SY_HMI_InvoiceEDI
                 }
                 //System.Threading.ThreadPool.QueueUserWorkItem(ThreadRun);
                 WriteToFile("START!!");
-                int timeTick = Convert.ToInt32(Utils.GetXMLConf("TIME_SPAN_SEC"));
+                int timeTick = Convert.ToInt32(Utils.GetXMLConf("TIME_SPAN_SEC")) *1000;
+                m_timer.Interval = timeTick;
+                m_timer.Elapsed += TimerRun;
+                m_timer.AutoReset = false;
+                m_timer.Start();
+
+                /*
                 TimeSpan tsInterval = new TimeSpan(0, 0, timeTick);
                 IntervalTimer = new System.Threading.Timer(
                     new System.Threading.TimerCallback(TimerRun)
                     , null, tsInterval, tsInterval);
-
+                */
             }
             catch (Exception eLog)
             {
@@ -159,10 +166,11 @@ namespace SY_HMI_InvoiceEDI
                 this.EventLog.WriteEntry("OnStart()/" + eLog.ToString(), EventLogEntryType.Error);
             }
         }
-        private void TimerRun(object arg)
+        private void TimerRun(object sender, System.Timers.ElapsedEventArgs e)
         {
             try
             {
+                m_timer.Stop();
                 DataIF_Process();
             }
             catch(Exception eLog)
@@ -171,7 +179,7 @@ namespace SY_HMI_InvoiceEDI
             }
             finally
             {
-                
+                m_timer.Start();
             }
             
         }
@@ -288,9 +296,7 @@ namespace SY_HMI_InvoiceEDI
         {
             try
             {
-                IntervalTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
-                IntervalTimer.Dispose();
-                IntervalTimer = null;
+                m_timer.Stop();
                 WriteToFile("END!!");
             }
             catch (Exception eLog)
