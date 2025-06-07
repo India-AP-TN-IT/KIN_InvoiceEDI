@@ -88,7 +88,7 @@
     <None Include="Connected Services\KIN_Service\KIN_InvoiceEDI.KIN_Service.O_DATA.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
-    <None Include="Connected Services\KIN_Service\Service.wsdl" />
+    <None Include="Connected Services\KIN_Service\Service1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="KIN_IV_Service.resx">
@@ -102,7 +102,7 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-    <None Include="Connected Services\KIN_Service\Service.disco" />
+    <None Include="Connected Services\KIN_Service\Service1.disco" />
     <Content Include="DB\Oracle.ManagedDataAccess.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
