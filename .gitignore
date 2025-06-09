@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/KIN_IV_Service/KIN_InvoiceEDI.csproj
